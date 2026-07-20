@@ -1,82 +1,60 @@
-// ===== Shadow Protocol =====
+const caixa = document.querySelector("#caixa");
+const btn = document.querySelector("#btn");
+const mostrar = document.querySelector("#mostrar");
 
-// Cabeçalho muda de cor ao rolar
+let verde = false;
 
-const header = document.querySelector("header");
+// Botão muda para cor aleatória
+btn.addEventListener("click", () => {
 
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 80) {
-        header.style.background = "rgba(2,6,23,.98)";
-        header.style.boxShadow = "0 10px 25px rgba(0,0,0,.35)";
-    } else {
-        header.style.background = "rgba(15,23,42,.95)";
-        header.style.boxShadow = "none";
+    const r = Math.floor(Math.random()*256);
+    const g = Math.floor(Math.random()*256);
+    const b = Math.floor(Math.random()*256);
+
+    caixa.style.background = `rgb(${r},${g},${b})`;
+
+});
+
+// Mouse entra
+caixa.addEventListener("mouseover", () => {
+
+    caixa.style.width = "250px";
+    caixa.style.height = "250px";
+    caixa.style.border = "5px solid yellow";
+
+});
+
+// Mouse sai
+caixa.addEventListener("mouseout", () => {
+
+    caixa.style.width = "200px";
+    caixa.style.height = "200px";
+    caixa.style.border = "none";
+
+});
+
+// Clique na caixa
+caixa.addEventListener("click", () => {
+
+    if(verde){
+        caixa.style.background = "blue";
+        caixa.innerHTML = "Azul";
+    }else{
+        caixa.style.background = "green";
+        caixa.innerHTML = "Verde";
     }
-});
 
-// Animação ao aparecer na tela
-
-const elementos = document.querySelectorAll(
-    ".card, .about-content, .gallery img, .numbers div, .contact"
-);
-
-const observer = new IntersectionObserver((entries) => {
-
-    entries.forEach(entry => {
-
-        if (entry.isIntersecting) {
-
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-
-        }
-
-    });
-
-}, {
-    threshold: 0.2
-});
-
-elementos.forEach(elemento => {
-
-    elemento.style.opacity = "0";
-    elemento.style.transform = "translateY(40px)";
-    elemento.style.transition = ".8s";
-
-    observer.observe(elemento);
+    verde = !verde;
 
 });
 
-// Rolagem suave dos links
+// Esconder / Mostrar
+mostrar.addEventListener("click", () => {
 
-document.querySelectorAll('nav a').forEach(link => {
-
-    link.addEventListener("click", function(e){
-
-        e.preventDefault();
-
-        const id = this.getAttribute("href");
-
-        const destino = document.querySelector(id);
-
-        if(destino){
-
-            destino.scrollIntoView({
-                behavior: "smooth"
-            });
-
-        }
-
-    });
+    if(caixa.style.display === "none"){
+        caixa.style.display = "flex";
+    }else{
+        caixa.style.display = "none";
+    }
 
 });
-
-// Ano automático no rodapé (opcional)
-
-const ano = document.getElementById("ano");
-
-if (ano) {
-    ano.textContent = new Date().getFullYear();
-}
-
-console.log("Shadow Protocol carregado com sucesso!");
